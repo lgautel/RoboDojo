@@ -25,6 +25,7 @@ class RobotManager:
         config: DictConfig,
         dt,
         device,
+        planner_device=None,
     ):
         self.sim: IsaacRLEnv = None
         self.control_manager = ControlManager(num_envs=num_envs, robot_manager=self)
@@ -32,6 +33,7 @@ class RobotManager:
         self.env_spacing = env_spacing
         self.robots_cfg = config.get("robots", [])
         self.device = device
+        self.planner_device = planner_device
         self.dt = dt
         self._seeds_per_env: list[int] | None = None
 
@@ -546,6 +548,7 @@ class RobotManager:
                 dt=self.dt,
                 yml_path=robot.curobo_yml_path,
                 table_height=0.74 - root_pose[2],
+                device=self.planner_device,
             )
             self.ik_solver[robot.robot_name] = self.planner[robot.robot_name]
 

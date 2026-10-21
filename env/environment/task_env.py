@@ -19,12 +19,15 @@ class TaskEnv(BaseEnv):
         # RobotManager must be created before BaseEnv.__init__ because it
         # provides the InteractiveSceneCfg used to launch the simulation.
         self.robot_config = config.robot
+        planner_device_id = config.get("eval_cfg", {}).get("device_id")
+        planner_device = f"cuda:{planner_device_id}" if planner_device_id is not None else None
         self.robot_manager = RobotManager(
             num_envs=self.num_envs,
             env_spacing=self.env_spacing,
             config=self.robot_config,
             dt=self.dt,
             device=self.device,
+            planner_device=planner_device,
         )
         self._interactiveSceneCfg = self.robot_manager._get_SceneCfg(
             num_envs=self.num_envs, env_spacing=self.env_spacing
