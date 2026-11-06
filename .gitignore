@@ -22,3 +22,5 @@ ignore/
 .cursor/
 .claude/
 Untitled
+
+tmp.*
